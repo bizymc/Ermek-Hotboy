@@ -3,375 +3,643 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MG 7 (2026) — Продаю стиль</title>
-
+<title>MG Legend — Продаю не тачку, продаю характер</title>
 <script src="https://cdn.tailwindcss.com"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+:root {
+  --c-bg:     #0C0C0C;
+  --c-bg2:    #111111;
+  --c-bg3:    #171717;
+  --c-bg4:    #1E1E1E;
+  --c-y:      #F5C400;
+  --c-y2:     rgba(245,196,0,.12);
+  --c-r:      #DC2626;
+  --c-rd:     rgba(220,38,38,.12);
+  --c-w50:    rgba(255,255,255,.5);
+  --c-w20:    rgba(255,255,255,.07);
+  --c-border: rgba(255,255,255,.08);
+  --r:        8px;
+  --font-d:   'Bebas Neue', sans-serif;
+  --font-b:   'Plus Jakarta Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { background: var(--c-bg); color: #fff; font-family: var(--font-b); overflow-x: hidden; }
 
-body{
-background:#0c0c0c;
-color:white;
-font-family:'Plus Jakarta Sans',sans-serif;
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--c-bg); }
+::-webkit-scrollbar-thumb { background: var(--c-y); border-radius: 2px; }
+
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+/* NAV */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+  padding: 0 24px; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background .3s, border-color .3s;
+  border-bottom: 1px solid transparent;
+}
+#nav.stuck {
+  background: rgba(12,12,12,.94);
+  backdrop-filter: blur(20px);
+  border-bottom-color: var(--c-border);
+}
+.nav-logo {
+  font-family: var(--font-d); font-size: 1.4rem; letter-spacing: .15em; color: var(--c-y);
+  border: 2px solid var(--c-y); padding: 1px 12px 0;
+  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+}
+.nav-link {
+  font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--c-w50); text-decoration: none; transition: color .2s;
+}
+.nav-link:hover { color: var(--c-y); }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-b); font-weight: 700; font-size: .8rem;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 14px 28px; text-decoration: none; border: none; cursor: pointer;
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+  position: relative; overflow: hidden; border-radius: var(--r);
+}
+.btn::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,.1); opacity:0; transition:opacity .2s; }
+.btn:hover::after { opacity:1; }
+.btn:hover { transform: translateY(-2px) scale(1.03); }
+.btn:active { transform: scale(.97); }
+.btn-y { background: var(--c-y); color: #000; }
+.btn-y:hover { box-shadow: 0 8px 32px rgba(245,196,0,.4); }
+.btn-ghost { background: transparent; color: #fff; border: 1.5px solid var(--c-border); }
+.btn-ghost:hover { border-color: var(--c-y); color: var(--c-y); }
+.btn-r { background: var(--c-r); color: #fff; }
+.btn-r:hover { box-shadow: 0 8px 32px rgba(220,38,38,.4); }
+
+/* TAGS */
+.tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .63rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 100px;
+}
+.tag-y { background: var(--c-y2); color: var(--c-y); border: 1px solid rgba(245,196,0,.2); }
+.tag-r { background: var(--c-rd); color: var(--c-r); border: 1px solid rgba(220,38,38,.2); }
+.tag-w { background: var(--c-w20); color: rgba(255,255,255,.6); border: 1px solid var(--c-border); }
+
+/* HERO */
+#hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: end; position: relative; overflow: hidden;
+  background: radial-gradient(ellipse 70% 80% at 75% 60%, rgba(245,196,0,.06) 0%, transparent 60%), var(--c-bg);
+}
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 80% at 75% 50%, black 0%, transparent 70%);
+}
+.hero-glow {
+  position: absolute; width: 500px; height: 500px; bottom: 0; left: 50%; transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(245,196,0,.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-img-wrap { display: flex; align-items: flex-end; justify-content: center; padding-top: 80px; position: relative; }
+.hero-img-wrap img {
+  max-height: 620px; width: auto; display: block;
+  filter: drop-shadow(0 0 60px rgba(245,196,0,.15));
+  object-fit: contain;
 }
 
-.title{
-font-family:'Bebas Neue';
-letter-spacing:2px;
+/* SPEECH BUBBLE */
+.bubble {
+  display: inline-block; background: var(--c-y); color: #000;
+  font-family: var(--font-b); font-weight: 700; font-size: .72rem; line-height: 1.5;
+  padding: 10px 16px; border-radius: 12px 12px 12px 2px;
+  transform: rotate(-1.5deg); filter: drop-shadow(0 4px 16px rgba(245,196,0,.3)); max-width: 190px;
+}
+.bubble.r { border-radius: 12px 12px 2px 12px; transform: rotate(1.5deg); }
+
+/* TICKER */
+.ticker-track { display: inline-flex; gap: 0; white-space: nowrap; animation: ticker 20s linear infinite; }
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 20px; padding: 0 24px;
+  font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(255,255,255,.22);
+}
+.ticker-item span { color: var(--c-y); }
+
+/* CARDS */
+.why-card {
+  background: var(--c-bg3); border: 1px solid var(--c-border); border-radius: 12px; padding: 28px 24px;
+  transition: transform .3s, border-color .3s, box-shadow .3s; position: relative; overflow: hidden;
+}
+.why-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background: var(--c-y); transform:scaleX(0); transform-origin:left; transition: transform .35s;
+}
+.why-card:hover { transform:translateY(-6px); border-color:rgba(245,196,0,.25); box-shadow:0 20px 60px rgba(0,0,0,.4); }
+.why-card:hover::before { transform:scaleX(1); }
+.why-icon { font-size:2rem; margin-bottom:14px; display:block; transition:transform .3s; }
+.why-card:hover .why-icon { transform:scale(1.2) rotate(-5deg); }
+
+/* REACTION CARDS */
+.reaction-card {
+  background: var(--c-bg3); border:1px solid var(--c-border); border-radius:12px;
+  padding:20px 24px 20px; position:relative; overflow:hidden;
+  transition: border-color .3s, transform .3s;
+}
+.reaction-card:hover { border-color:rgba(245,196,0,.3); transform:translateY(-4px); }
+.reaction-from {
+  position:absolute; top:-1px; left:20px; background:var(--c-y); color:#000;
+  font-size:.58rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+  padding:3px 10px; border-radius:0 0 6px 6px;
 }
 
-.wrap{
-max-width:1100px;
-margin:auto;
-padding:20px;
+/* SPEC LIST */
+.spec-item {
+  display:flex; align-items:center; gap:16px; padding:18px 20px;
+  border-bottom:1px solid var(--c-border); transition:background .2s, padding-left .25s;
+}
+.spec-item:last-child { border-bottom:none; }
+.spec-item:hover { background:rgba(245,196,0,.04); padding-left:28px; }
+.spec-val { margin-left:auto; font-family:var(--font-d); font-size:1.1rem; color:var(--c-y); letter-spacing:.06em; }
+
+/* PERSON CARDS */
+.pcard {
+  background:var(--c-bg3); border:1px solid var(--c-border); border-radius:12px; overflow:hidden;
+  transition:transform .3s, border-color .3s, box-shadow .3s;
+}
+.pcard:hover { transform:translateY(-8px); border-color:rgba(245,196,0,.3); box-shadow:0 24px 64px rgba(0,0,0,.4); }
+.pcard img { width:100%; height:260px; object-fit:cover; object-position:top center; display:block; }
+.pcard-body { padding:18px; }
+
+/* REVIEWS */
+.review {
+  background:var(--c-bg3); border:1px solid var(--c-border); border-radius:12px; padding:28px;
+  position:relative; overflow:hidden; transition:border-color .3s;
+}
+.review:hover { border-color:rgba(245,196,0,.25); }
+.review-top { position:absolute; top:0; left:0; right:0; height:2px; background:var(--c-y); }
+.review-avatar {
+  width:44px; height:44px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:1rem; flex-shrink:0;
 }
 
-.card{
-background:#111;
-border:1px solid #222;
-border-radius:12px;
-padding:22px;
+/* PRICE */
+.price-big { font-family:var(--font-d); font-size:clamp(3.5rem,9vw,7rem); color:var(--c-y); line-height:1; letter-spacing:.02em; }
+
+/* CTA */
+#cta {
+  background: radial-gradient(ellipse 100% 60% at 50% 100%, rgba(245,196,0,.06) 0%, transparent 60%), var(--c-bg2);
 }
 
-.btn{
-background:#F5C400;
-color:black;
-padding:14px 26px;
-border-radius:10px;
-font-weight:700;
-display:inline-block;
-}
+/* ANIMATIONS */
+@keyframes float  { 0%,100%{transform:translateY(0)}    50%{transform:translateY(-12px)} }
+@keyframes float2 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(3deg)} }
+@keyframes pulse-ring { 0%{box-shadow:0 0 0 0 rgba(37,211,102,.5)} 70%{box-shadow:0 0 0 14px rgba(37,211,102,0)} 100%{box-shadow:0 0 0 0 rgba(37,211,102,0)} }
+.anim-float  { animation: float  3.5s ease-in-out infinite; }
+.anim-float2 { animation: float2 4s   ease-in-out infinite; }
 
-img{
-border-radius:12px;
-}
+/* SCROLL REVEAL */
+.rv  { opacity:0; transform:translateY(32px);  transition:opacity .65s ease, transform .65s ease; }
+.rvl { opacity:0; transform:translateX(-32px); transition:opacity .65s ease, transform .65s ease; }
+.rvr { opacity:0; transform:translateX(32px);  transition:opacity .65s ease, transform .65s ease; }
+.rv.on, .rvl.on, .rvr.on { opacity:1; transform:none; }
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}
+.d4{transition-delay:.28s}.d5{transition-delay:.35s}.d6{transition-delay:.42s}
 
-.yellow{
-color:#F5C400;
-}
+.div-y { height:1px; background:linear-gradient(90deg,transparent,rgba(245,196,0,.3),transparent); }
 
+footer { padding:28px 0; border-top:1px solid var(--c-border); }
+
+/* WA FLOAT */
+#wa-btn {
+  position:fixed; bottom:28px; right:28px; z-index:200;
+  width:58px; height:58px; border-radius:50%; background:#25D366;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.6rem; text-decoration:none;
+  box-shadow:0 4px 24px rgba(37,211,102,.45);
+  transition:transform .2s, box-shadow .2s;
+  animation: pulse-ring 3s ease-in-out infinite;
+}
+#wa-btn:hover { transform:scale(1.12); }
+
+/* RESPONSIVE */
+@media(max-width:768px) {
+  #hero { grid-template-columns:1fr; }
+  .hero-img-wrap { max-height:60vw; overflow:hidden; }
+  .hero-img-wrap img { max-height:60vw; }
+  .hide-mob { display:none !important; }
+  .mob-1col { grid-template-columns:1fr !important; }
+  .mob-2col { grid-template-columns:1fr 1fr !important; }
+  .wrap { padding:0 16px; }
+}
 </style>
-
 </head>
-
 <body>
 
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div class="nav-logo">MG</div>
+  <div class="flex items-center gap-8 hide-mob">
+    <a href="#why"   class="nav-link">Почему MG</a>
+    <a href="#specs" class="nav-link">Характеристики</a>
+    <a href="#who"   class="nav-link">Для кого</a>
+    <a href="#price" class="nav-link">Цена</a>
+  </div>
+  <a href="https://wa.me/77777777777" class="btn btn-y" style="font-size:.72rem;padding:10px 22px;">Написать 💬</a>
+</nav>
 
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-grid"></div>
 
-<!-- HERO -->
+  <!-- LEFT -->
+  <div class="wrap" style="padding-top:140px;padding-bottom:80px;grid-column:1;">
+    <div class="tag tag-y mb-5 rv">📍 Алматы · Частная продажа</div>
 
-<section class="wrap grid md:grid-cols-2 gap-12 items-center">
+    <h1 class="rv d1" style="font-family:var(--font-d);font-size:clamp(3.8rem,7vw,6.8rem);line-height:.95;letter-spacing:.02em;margin-bottom:16px;">
+      ПРОДАЮ<br>НЕ ПРОСТО<br><span style="color:var(--c-y);">ТАЧКУ</span>
+    </h1>
+    <h2 class="rv d2" style="font-family:var(--font-d);font-size:clamp(2.8rem,5vw,4.5rem);line-height:.95;letter-spacing:.02em;color:var(--c-r);margin-bottom:28px;">
+      ПРОДАЮ ХАРАКТЕР
+    </h2>
 
-<div>
+    <p class="rv d3" style="font-size:1rem;color:rgba(255,255,255,.55);line-height:1.7;max-width:420px;margin-bottom:36px;">
+      Когда подъезжаешь — все думают<br>
+      <strong style="color:#fff;">"У него всё получилось"</strong> 😎
+    </p>
 
-<h1 class="title text-6xl mb-4">
+    <div class="rv d4 flex flex-wrap gap-3" style="margin-bottom:48px;">
+      <a href="#price" class="btn btn-y">Хочу тест-драйв 🚗</a>
+      <a href="#why"   class="btn btn-ghost">Почему MG →</a>
+    </div>
 
-MG 7 2026
+    <!-- stats strip -->
+    <div class="rv d5 flex gap-6" style="padding-top:28px;border-top:1px solid var(--c-border);">
+      <div>
+        <div style="font-family:var(--font-d);font-size:2.2rem;color:var(--c-y);line-height:1;">169</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;">Л.С.</div>
+      </div>
+      <div style="width:1px;background:var(--c-border);"></div>
+      <div>
+        <div style="font-family:var(--font-d);font-size:2.2rem;color:var(--c-y);line-height:1;">1.5T</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;">Turbo</div>
+      </div>
+      <div style="width:1px;background:var(--c-border);"></div>
+      <div>
+        <div style="font-family:var(--font-d);font-size:2.2rem;color:var(--c-y);line-height:1;">7.2</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;">Л/100км</div>
+      </div>
+      <div style="width:1px;background:var(--c-border);"></div>
+      <div>
+        <div style="font-family:var(--font-d);font-size:2.2rem;color:var(--c-y);line-height:1;">DCT</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;">Автомат</div>
+      </div>
+    </div>
+  </div>
 
-</h1>
-
-<p class="text-gray-400 mb-6">
-
-когда подъезжаешь  
-люди думают  
-
-"он явно шарит"
-
-</p>
-
-
-<div class="grid grid-cols-2 gap-3 mb-8">
-
-<div class="card">
-188 л.с.
-</div>
-
-<div class="card">
-1.5 Turbo
-</div>
-
-<div class="card">
-6.9 л расход
-</div>
-
-<div class="card">
-7 DCT
-</div>
-
-<div class="card">
-12.3 экран
-</div>
-
-<div class="card">
-360 камера
-</div>
-
-</div>
-
-<a class="btn">
-написать
-</a>
-
-</div>
-
-
-<div>
-
-<img src="img/hero.png">
-
-</div>
-
-
+  <!-- RIGHT photo -->
+  <div class="hero-img-wrap rvr d2">
+    <div class="hero-glow"></div>
+    <div class="anim-float2 hide-mob" style="position:absolute;top:90px;right:24px;z-index:10;">
+      <div class="bubble r">Машина уже<br>ждёт тебя! 🔥</div>
+    </div>
+    <img src="img/hero.png" alt="Продавец MG">
+  </div>
 </section>
 
-
-
-
-<!-- MEM -->
-
-<section class="wrap">
-
-<h2 class="title text-4xl mb-8 yellow">
-
-реакция людей
-
-</h2>
-
-<div class="grid md:grid-cols-4 gap-4">
-
-
-<div class="card">
-
-<img src="img/glasses.png">
-
-<p>
-deal with it 😎
-</p>
-
+<!-- ═══ TICKER ═══ -->
+<div style="overflow:hidden;border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border);background:rgba(245,196,0,.025);padding:12px 0;">
+  <div class="ticker-track">
+    <div class="ticker-item">MG Legend <span>✦</span></div>
+    <div class="ticker-item">169 Л.С. Turbo <span>✦</span></div>
+    <div class="ticker-item">Алматы <span>✦</span></div>
+    <div class="ticker-item">7 700 000 ₸ <span>✦</span></div>
+    <div class="ticker-item">Один хозяин <span>✦</span></div>
+    <div class="ticker-item">Готов к встрече <span>✦</span></div>
+    <div class="ticker-item">MG Legend <span>✦</span></div>
+    <div class="ticker-item">169 Л.С. Turbo <span>✦</span></div>
+    <div class="ticker-item">Алматы <span>✦</span></div>
+    <div class="ticker-item">7 700 000 ₸ <span>✦</span></div>
+    <div class="ticker-item">Один хозяин <span>✦</span></div>
+    <div class="ticker-item">Готов к встрече <span>✦</span></div>
+  </div>
 </div>
 
-
-<div class="card">
-
-<img src="img/thumbsup.png">
-
-<p>
-норм выбор 👍
-</p>
-
-</div>
-
-
-<div class="card">
-
-<img src="img/pointing.png">
-
-<p>
-вот эту бери 👉
-</p>
-
-</div>
-
-
-<div class="card">
-
-<img src="img/thinking.png">
-
-<p>
-почему не купил раньше 🤔
-</p>
-
-</div>
-
-
-</div>
-
+<!-- ═══ WHY MG ═══ -->
+<section id="why" style="padding:96px 0;background:var(--c-bg2);">
+  <div class="wrap">
+    <div class="rv" style="text-align:center;margin-bottom:60px;">
+      <span style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--c-y);opacity:.8;display:block;margin-bottom:12px;">Честно о машине</span>
+      <h2 style="font-family:var(--font-d);font-size:clamp(3rem,6vw,5.5rem);letter-spacing:.02em;">ПОЧЕМУ <span style="color:var(--c-y);">MG?</span></h2>
+      <p style="color:rgba(255,255,255,.4);font-size:.9rem;margin-top:10px;">Потому что Toyota уже у всех, а ты — особенный 🙂</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;">
+      <div class="why-card rv d1"><span class="why-icon">💎</span><div style="font-weight:700;font-size:.85rem;color:var(--c-y);margin-bottom:6px;">ВЫГЛЯДИТ ДОРОГО</div><div style="font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5;">Сосед решит, что у тебя бизнес</div></div>
+      <div class="why-card rv d2"><span class="why-icon">⚡</span><div style="font-weight:700;font-size:.85rem;color:var(--c-y);margin-bottom:6px;">ЕДЕТ БОДРО</div><div style="font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5;">169 л.с. — приятно на трассе</div></div>
+      <div class="why-card rv d3"><span class="why-icon">🛋️</span><div style="font-weight:700;font-size:.85rem;color:var(--c-y);margin-bottom:6px;">КОМФОРТНЫЙ САЛОН</div><div style="font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5;">Даже пробки кажутся медитацией</div></div>
+      <div class="why-card rv d4"><span class="why-icon">⛽</span><div style="font-weight:700;font-size:.85rem;color:var(--c-y);margin-bottom:6px;">ЭКОНОМИЧНЫЙ</div><div style="font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5;">7.2 л/100 — кошелёк скажет спасибо</div></div>
+      <div class="why-card rv d5"><span class="why-icon">📈</span><div style="font-weight:700;font-size:.85rem;color:var(--c-y);margin-bottom:6px;">ЛИКВИДНЫЙ</div><div style="font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5;">Продашь быстрее чем прочитаешь</div></div>
+      <div class="why-card rv d6"><span class="why-icon">✨</span><div style="font-weight:700;font-size:.85rem;color:var(--c-y);margin-bottom:6px;">СОВРЕМЕННЫЙ</div><div style="font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.5;">Выглядит дороже чем стоит</div></div>
+    </div>
+  </div>
 </section>
 
+<div class="div-y"></div>
 
+<!-- ═══ REACTIONS ═══ -->
+<section style="padding:96px 0;background:var(--c-bg);">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;" class="mob-1col">
 
+      <div>
+        <div class="rv" style="margin-bottom:40px;">
+          <span style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--c-y);opacity:.8;display:block;margin-bottom:12px;">Реакция окружения</span>
+          <h2 style="font-family:var(--font-d);font-size:clamp(2.5rem,5vw,4.5rem);line-height:.95;letter-spacing:.02em;">КАК ТОЛЬКО<br><span style="color:var(--c-y);">ВЫЕДЕШЬ</span> 🚗</h2>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="reaction-card rv d1">
+            <div class="reaction-from">ЛУЧШИЙ ДРУГ</div>
+            <div style="font-size:1.5rem;margin:14px 0 8px;">😳</div>
+            <div style="font-weight:700;font-size:.9rem;margin-bottom:4px;">"Когда успел купить?!"</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.35);">Листает характеристики уже 20 минут</div>
+          </div>
+          <div class="reaction-card rv d2">
+            <div class="reaction-from">СОСЕД</div>
+            <div style="font-size:1.5rem;margin:14px 0 8px;">🤨</div>
+            <div style="font-weight:700;font-size:.9rem;margin-bottom:4px;">"Это точно твоя машина?"</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.35);">Смотрит из окна уже третий день</div>
+          </div>
+          <div class="reaction-card rv d3">
+            <div class="reaction-from">АПА</div>
+            <div style="font-size:1.5rem;margin:14px 0 8px;">🥹</div>
+            <div style="font-weight:700;font-size:.9rem;margin-bottom:4px;">"Сын вырос! Молодец!"</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.35);">Уже рассказала всем родственникам</div>
+          </div>
+          <div class="reaction-card rv d4" style="border-color:rgba(245,196,0,.15);">
+            <div class="reaction-from" style="background:var(--c-r);color:#fff;">ТЫ СЕЙЧАС</div>
+            <div style="font-size:1.5rem;margin:14px 0 8px;">🤔</div>
+            <div style="font-weight:700;font-size:.9rem;margin-bottom:4px;">"Ещё подумаю..."</div>
+            <div style="font-size:.75rem;color:rgba(245,196,0,.7);">Братан, ты уже прокрутил до сюда 😤</div>
+          </div>
+        </div>
+      </div>
 
-
-<!-- SPECS -->
-
-<section class="wrap">
-
-<h2 class="title text-4xl mb-8 yellow">
-
-характеристики MG 7
-
-</h2>
-
-<div class="grid md:grid-cols-2 gap-10 items-center">
-
-
-<div class="grid gap-3">
-
-
-<div class="card">
-двигатель 1.5T turbo
-</div>
-
-<div class="card">
-188 л.с.
-</div>
-
-<div class="card">
-7 DCT автомат
-</div>
-
-<div class="card">
-расход 6.9л
-</div>
-
-<div class="card">
-экран 12.3
-</div>
-
-<div class="card">
-камера 360
-</div>
-
-<div class="card">
-год 2026
-</div>
-
-
-</div>
-
-
-<img src="img/keys.png">
-
-
-</div>
-
+      <div class="rvr" style="text-align:center;">
+        <div class="bubble anim-float" style="display:inline-block;margin-bottom:16px;">Deal with it.<br>Просто покупай 😎</div>
+        <img src="img/glasses.png" alt="в pixel очках" style="max-height:460px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 0 40px rgba(245,196,0,.15));">
+        <div style="margin-top:12px;"><span class="tag tag-y">PIXEL GLASSES MODE 😎</span></div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<div class="div-y"></div>
 
+<!-- ═══ SPECS ═══ -->
+<section id="specs" style="padding:96px 0;background:var(--c-bg2);">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;" class="mob-1col">
 
+      <div class="rvl">
+        <span style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--c-y);opacity:.8;display:block;margin-bottom:12px;">Без лишних слов</span>
+        <h2 style="font-family:var(--font-d);font-size:clamp(2.5rem,5vw,4.5rem);line-height:.95;letter-spacing:.02em;margin-bottom:36px;">ХАРАКТЕРИСТИКИ <span style="color:var(--c-y);">АВТО</span></h2>
+        <div style="background:var(--c-bg3);border:1px solid var(--c-border);border-radius:12px;overflow:hidden;">
+          <div class="spec-item"><span style="font-size:1.5rem;">🐎</span><div><div style="font-size:.6rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px;">Двигатель</div><div style="font-weight:700;font-size:.88rem;">1.5T Turbo</div></div><div class="spec-val">169 Л.С.</div></div>
+          <div class="spec-item"><span style="font-size:1.5rem;">⛽</span><div><div style="font-size:.6rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px;">Расход</div><div style="font-weight:700;font-size:.88rem;">Городской цикл</div></div><div class="spec-val">7.2 Л</div></div>
+          <div class="spec-item"><span style="font-size:1.5rem;">⚙️</span><div><div style="font-size:.6rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px;">Коробка</div><div style="font-weight:700;font-size:.88rem;">7-ступ. DCT Автомат</div></div><div class="spec-val">ПЛАВНО</div></div>
+          <div class="spec-item"><span style="font-size:1.5rem;">📱</span><div><div style="font-size:.6rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px;">Экран</div><div style="font-weight:700;font-size:.88rem;">Apple CarPlay / Android Auto</div></div><div class="spec-val">10.1"</div></div>
+          <div class="spec-item"><span style="font-size:1.5rem;">📷</span><div><div style="font-size:.6rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px;">Обзор</div><div style="font-weight:700;font-size:.88rem;">Камера 360° + парктроник</div></div><div class="spec-val">360°</div></div>
+          <div class="spec-item"><span style="font-size:1.5rem;">🛡️</span><div><div style="font-size:.6rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px;">Безопасность</div><div style="font-weight:700;font-size:.88rem;">6 подушек + климат</div></div><div class="spec-val">ТОП</div></div>
+        </div>
+      </div>
 
-<!-- WHO -->
-
-<section class="wrap">
-
-<h2 class="title text-4xl mb-8 yellow">
-
-для кого
-
-</h2>
-
-
-<div class="grid md:grid-cols-4 gap-4">
-
-
-<div class="card">
-
-<img src="img/heart.png">
-
-<p>
-любишь комфорт ❤️
-</p>
-
-</div>
-
-
-<div class="card">
-
-<img src="img/thumbsup.png">
-
-<p>
-хочешь статус
-</p>
-
-</div>
-
-
-<div class="card">
-
-<img src="img/thinking.png">
-
-<p>
-умеешь считать деньги
-</p>
-
-</div>
-
-
-<div class="card">
-
-<img src="img/ok.png">
-
-<p>
-умеешь выбирать 👌
-</p>
-
-</div>
-
-
-</div>
-
+      <div class="rvr" style="text-align:center;">
+        <div class="bubble r anim-float" style="display:inline-block;margin-bottom:16px;">Ключи уже в руках.<br>Осталось решиться! 🔑</div>
+        <img src="img/keys.png" alt="ключи" style="max-height:460px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 0 40px rgba(245,196,0,.12));">
+      </div>
+    </div>
+  </div>
 </section>
 
+<div class="div-y"></div>
 
-
-
-
-<!-- SELL -->
-
-<section class="wrap">
-
-<h2 class="title text-4xl mb-6 yellow">
-
-почему продаю
-
-</h2>
-
-
-<div class="card">
-
-хочу обновиться 😄  
-
-машина новая  
-
-просто хочу другую модель  
-
-</div>
-
+<!-- ═══ FOR WHO ═══ -->
+<section id="who" style="padding:96px 0;background:var(--c-bg);">
+  <div class="wrap">
+    <div class="rv" style="text-align:center;margin-bottom:56px;">
+      <span style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--c-y);opacity:.8;display:block;margin-bottom:12px;">Узнай себя</span>
+      <h2 style="font-family:var(--font-d);font-size:clamp(2.8rem,6vw,5rem);line-height:.95;letter-spacing:.02em;">ДЛЯ КОГО <span style="color:var(--c-y);">ЭТА ТАЧКА?</span></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+      <div class="pcard rv d1">
+        <img src="img/thinking.png" alt="">
+        <div class="pcard-body"><div class="tag tag-w" style="margin-bottom:12px;font-size:.58rem;">УРОВЕНЬ 1</div><div style="font-weight:700;font-size:.85rem;margin-bottom:6px;">Для тех, кто <span style="color:var(--c-y);">устал от такси</span></div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.5;">Водитель снова опоздал? Последний раз</div></div>
+      </div>
+      <div class="pcard rv d2">
+        <img src="img/thumbsup.png" alt="">
+        <div class="pcard-body"><div class="tag tag-y" style="margin-bottom:12px;font-size:.58rem;">УРОВЕНЬ 2</div><div style="font-weight:700;font-size:.85rem;margin-bottom:6px;">Для тех, кто <span style="color:var(--c-y);">хочет статус</span></div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.5;">Выглядеть дорого — это искусство</div></div>
+      </div>
+      <div class="pcard rv d3">
+        <img src="img/heart.png" alt="">
+        <div class="pcard-body"><div class="tag tag-r" style="margin-bottom:12px;font-size:.58rem;">УРОВЕНЬ 3</div><div style="font-weight:700;font-size:.85rem;margin-bottom:6px;">Для тех, кто <span style="color:var(--c-y);">любит комфорт</span></div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.5;">Каждая поездка как бизнес-класс</div></div>
+      </div>
+      <div class="pcard rv d4">
+        <img src="img/ok.png" alt="">
+        <div class="pcard-body"><div class="tag tag-w" style="margin-bottom:12px;font-size:.58rem;">УРОВЕНЬ 4</div><div style="font-weight:700;font-size:.85rem;margin-bottom:6px;">Для тех, кто <span style="color:var(--c-y);">считает деньги</span></div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.5;">Максимум за разумный бюджет</div></div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<div class="div-y"></div>
 
-
-
-
-<!-- PRICE -->
-
-<section class="wrap text-center">
-
-<h2 class="title text-5xl yellow mb-4">
-
-9 990 000 ₸
-
-</h2>
-
-<p class="text-gray-400 mb-6">
-
-торг есть
-
-</p>
-
-<a class="btn">
-
-написать whatsapp
-
-</a>
-
+<!-- ═══ WHY SELLING ═══ -->
+<section style="padding:80px 0;background:var(--c-bg2);">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;" class="mob-1col">
+      <div class="rvl">
+        <span style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--c-y);opacity:.8;display:block;margin-bottom:12px;">Честность прежде всего</span>
+        <h2 style="font-family:var(--font-d);font-size:clamp(2.5rem,5vw,4rem);line-height:.95;letter-spacing:.02em;margin-bottom:20px;">ПОЧЕМУ <span style="color:var(--c-y);">ПРОДАЮ?</span></h2>
+        <p style="color:rgba(255,255,255,.5);font-size:.9rem;line-height:1.7;margin-bottom:24px;">
+          Машина хорошая — просто цели изменились.<br>
+          Не поломки, не долги, не развод 😄<br>
+          Просто пришло время обновления.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--c-bg3);border:1px solid var(--c-border);border-radius:8px;"><span style="color:var(--c-y);">✓</span><span style="font-size:.85rem;font-weight:600;">Один владелец с нового</span></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--c-bg3);border:1px solid var(--c-border);border-radius:8px;"><span style="color:var(--c-y);">✓</span><span style="font-size:.85rem;font-weight:600;">Не бита, не крашена</span></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--c-bg3);border:1px solid var(--c-border);border-radius:8px;"><span style="color:var(--c-y);">✓</span><span style="font-size:.85rem;font-weight:600;">Обслуживалась официально</span></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--c-bg3);border:1px solid var(--c-border);border-radius:8px;"><span style="color:var(--c-y);">✓</span><span style="font-size:.85rem;font-weight:600;">Готов показать историю</span></div>
+        </div>
+      </div>
+      <div class="rvr" style="text-align:center;">
+        <img src="img/pointing.png" alt="указывает" style="max-height:440px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 0 40px rgba(245,196,0,.1));">
+        <div class="bubble" style="display:inline-block;margin-top:16px;">Всё честно.<br>Можешь проверить! 👆</div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<div class="div-y"></div>
 
+<!-- ═══ REVIEWS ═══ -->
+<section style="padding:80px 0;background:var(--c-bg);">
+  <div class="wrap">
+    <div class="rv" style="text-align:center;margin-bottom:48px;">
+      <span style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--c-y);opacity:.8;display:block;margin-bottom:12px;">Люди говорят</span>
+      <h2 style="font-family:var(--font-d);font-size:clamp(2.5rem,5vw,4.5rem);line-height:.95;letter-spacing:.02em;">ОТЗЫВЫ <span style="color:var(--c-y);">👥</span></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+      <div class="review rv d1">
+        <div class="review-top"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <div class="review-avatar" style="background:var(--c-y);color:#000;">А</div>
+          <div><div style="font-weight:700;font-size:.9rem;">Алексей</div><div style="color:var(--c-y);font-size:.8rem;">★★★★★</div></div>
+          <div class="tag tag-w" style="margin-left:auto;font-size:.55rem;">2 нед. назад</div>
+        </div>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6;font-style:italic;">"Сел — и сразу понял: это моя машина. Всё честно, рекомендую!"</p>
+      </div>
+      <div class="review rv d2">
+        <div class="review-top" style="background:var(--c-r);"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <div class="review-avatar" style="background:var(--c-r);color:#fff;">Р</div>
+          <div><div style="font-weight:700;font-size:.9rem;">Руслан</div><div style="color:var(--c-y);font-size:.8rem;">★★★★★</div></div>
+          <div class="tag tag-w" style="margin-left:auto;font-size:.55rem;">1 мес. назад</div>
+        </div>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6;font-style:italic;">"Машина огонь 🔥 Жалею что не купил раньше. Девушки точно замечают!"</p>
+      </div>
+      <div class="review rv d3">
+        <div class="review-top"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <div class="review-avatar" style="background:var(--c-bg4);color:var(--c-y);">Ар</div>
+          <div><div style="font-weight:700;font-size:.9rem;">Арман</div><div style="color:var(--c-y);font-size:.8rem;">★★★★★</div></div>
+          <div class="tag tag-w" style="margin-left:auto;font-size:.55rem;">3 нед. назад</div>
+        </div>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6;font-style:italic;">"Лучше чем ожидал. Честный продавец, машина в идеальном состоянии!"</p>
+      </div>
+    </div>
+  </div>
+</section>
 
+<div class="div-y"></div>
 
+<!-- ═══ PRICE ═══ -->
+<section id="price" style="padding:96px 0;background:var(--c-bg2);">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;" class="mob-1col">
+      <div class="rvl">
+        <span style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--c-y);opacity:.8;display:block;margin-bottom:12px;">Главный вопрос</span>
+        <h2 style="font-family:var(--font-d);font-size:clamp(2.8rem,5vw,4.5rem);line-height:.95;letter-spacing:.02em;margin-bottom:24px;">ЦЕНА <span style="color:var(--c-y);">ВОПРОСА</span></h2>
+
+        <div style="background:var(--c-bg3);border:1px solid rgba(245,196,0,.2);border-radius:12px;padding:32px 36px;margin-bottom:16px;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c-y),var(--c-r));"></div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;">Цена</div>
+          <div class="price-big">7 700 000 ₸</div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.35);margin-top:8px;">Торг есть. Но только с людьми с душой 🤝</div>
+        </div>
+        <div style="background:var(--c-bg3);border:1px solid var(--c-border);border-radius:12px;padding:20px 24px;display:flex;align-items:center;gap:16px;margin-bottom:28px;">
+          <span style="font-size:1.8rem;">😁</span>
+          <div style="flex:1;"><div style="font-weight:700;font-size:.85rem;margin-bottom:2px;">Или договоримся</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);">Напиши — обсудим как люди</div></div>
+          <a href="https://wa.me/77777777777" class="btn btn-y" style="font-size:.72rem;padding:10px 20px;">WhatsApp</a>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+          <div style="padding:16px;background:var(--c-bg3);border:1px solid var(--c-border);border-radius:8px;text-align:center;"><div style="font-family:var(--font-d);font-size:1.8rem;color:var(--c-y);">2026</div><div style="font-size:.62rem;color:rgba(255,255,255,.35);">Год выпуска</div></div>
+          <div style="padding:16px;background:var(--c-bg3);border:1px solid var(--c-border);border-radius:8px;text-align:center;"><div style="font-family:var(--font-d);font-size:1.8rem;color:var(--c-y);">20K</div><div style="font-size:.62rem;color:rgba(255,255,255,.35);">Пробег км</div></div>
+          <div style="padding:16px;background:var(--c-bg3);border:1px solid var(--c-border);border-radius:8px;text-align:center;"><div style="font-family:var(--font-d);font-size:1.8rem;color:var(--c-y);">1</div><div style="font-size:.62rem;color:rgba(255,255,255,.35);">Владелец</div></div>
+        </div>
+      </div>
+
+      <div class="rvr" style="text-align:center;">
+        <img src="img/ok.png" alt="всё хорошо" style="max-height:460px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 0 40px rgba(245,196,0,.15));">
+        <div style="margin-top:16px;"><span class="tag tag-y">Всё чётко. Берёшь? 👌</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div-y"></div>
+
+<!-- ═══ CTA ═══ -->
+<section id="cta" style="padding:96px 0;">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;" class="mob-1col">
+      <div class="rvl">
+        <span style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--c-y);opacity:.8;display:block;margin-bottom:12px;">Финальный призыв</span>
+        <h2 style="font-family:var(--font-d);font-size:clamp(3rem,6vw,5.5rem);line-height:.95;letter-spacing:.02em;margin-bottom:20px;">
+          ХВАТИТ<br><span style="color:var(--c-y);">ДУМАТЬ</span><br><span style="color:var(--c-r);">ПОРА</span><br>ЕЗДИТЬ
+        </h2>
+        <p style="color:rgba(255,255,255,.45);font-size:.9rem;line-height:1.7;margin-bottom:36px;">
+          Пиши, звони, приезжай —<br>
+          <strong style="color:#fff;">прокачу с кайфом!</strong> 🚗💨<br>
+          <span style="color:rgba(255,255,255,.25);">Алматы · Готов к встрече 📍</span>
+        </p>
+        <div style="display:flex;flex-direction:column;gap:12px;max-width:360px;margin-bottom:40px;">
+          <a href="https://wa.me/77777777777" class="btn btn-y" style="justify-content:center;">Написать в WhatsApp 💬</a>
+          <a href="tel:+77777777777"           class="btn btn-r" style="justify-content:center;">📞 Позвонить</a>
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--c-bg3);border:1px solid var(--c-border);border-radius:var(--r);">
+            <span style="color:var(--c-y);">📍</span>
+            <div><div style="font-size:.6rem;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;">Где встретимся</div><div style="font-weight:600;font-size:.85rem;">Алматы — приеду или жду тебя</div></div>
+          </div>
+        </div>
+        <div style="padding-top:24px;border-top:1px solid var(--c-border);">
+          <div style="font-size:.72rem;color:rgba(255,255,255,.25);font-style:italic;margin-bottom:4px;">Не продаю металл — передаю стиль жизни.</div>
+          <div style="font-family:var(--font-d);font-size:2rem;color:var(--c-y);">Жансерик 👑</div>
+        </div>
+      </div>
+
+      <div class="rvr" style="text-align:center;position:relative;">
+        <div class="bubble r anim-float2" style="display:inline-block;margin-bottom:20px;">Жду твоё сообщение<br>прямо сейчас! ✈️</div>
+        <img src="img/thumbsup.png" alt="палец вверх" style="max-height:520px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 0 60px rgba(245,196,0,.2));">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <div class="nav-logo" style="font-size:1.1rem;">MG</div>
+    <p style="font-size:.68rem;color:rgba(255,255,255,.18);text-align:center;">
+      Алматы · MG Legend · Частная продажа · 2025<br>
+      <span style="color:rgba(245,196,0,.35);">Машина ждёт тебя 🔥</span>
+    </p>
+    <div style="display:flex;gap:20px;">
+      <a href="https://wa.me/77777777777" style="font-size:.7rem;color:rgba(255,255,255,.25);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#F5C400'" onmouseout="this.style.color='rgba(255,255,255,.25)'">WhatsApp</a>
+      <a href="tel:+77777777777"          style="font-size:.7rem;color:rgba(255,255,255,.25);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#F5C400'" onmouseout="this.style.color='rgba(255,255,255,.25)'">Позвонить</a>
+    </div>
+  </div>
+</footer>
+
+<a id="wa-btn" href="https://wa.me/77777777777" aria-label="WhatsApp">💬</a>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('stuck', scrollY > 48), {passive:true});
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.rv,.rvl,.rvr').forEach(el => io.observe(el));
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+
+document.querySelectorAll('.why-card,.pcard,.review,.reaction-card').forEach((el,i) => {
+  if (!el.style.transitionDelay) el.style.transitionDelay = (i % 6 * 0.08) + 's';
+});
+</script>
 </body>
 </html>
